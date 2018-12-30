@@ -10,7 +10,7 @@ class Line
 {
 public:
     Line(double a, double b, double c)
-        : a_{a},b_{b},c_{c}{}
+        : a_{a},b_{b},c_{c}, p1_{Point{0,0}}, p2_{Point{0,0}}{}
     Line(const Point& p1, const Point& p2)
         : a_{p1.getY() - p1.getY()},
           b_{p1.getX() - p2.getX()},
@@ -73,6 +73,7 @@ public:
             &&(minY <= y + eps_ && y <= maxY - eps_);
     }
 
+
     Point intersection(const Line& l2) const
     {
         auto a1 = a_;
@@ -95,6 +96,33 @@ public:
             // Throw error 
     
         return Point{0,0};
+    }
+
+    Point reflectionPoint(const Point& p) const
+    {
+        auto x = p.getX() ;
+        auto y = p.getY();
+
+        auto X  = p;
+
+        double d = -b_ * x + a_ * y;
+
+        Line  lPer{-b_, a_, d};
+
+        Point Y = intersection(lPer);
+
+        Point Xr = Y - (X- Y);
+    
+        return Xr;
+    }
+
+    Line rotate(const double angle, const Point& center = Point{0,0}) const
+    {
+        auto p1 = p1_.rotate(angle, center);
+        auto p2 = p2_.rotate(angle, center);
+
+        Line l{p1,p2};
+        return l;
     }
 
 private:

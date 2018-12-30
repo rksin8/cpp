@@ -16,6 +16,34 @@ public:
         y_ = p.y_;
     }
 
+    Point& operator+(const Point& p) 
+    {
+        x_ = x_ + p.x_;
+        y_ = y_ + p.y_;
+
+        return *this;
+    }
+    Point& operator-(const Point& p) 
+    {
+        x_ = p.x_ - x_;
+        y_ = p.y_ - y_;
+
+        return *this;
+    }
+
+    Point rotate(const double angle, const Point& center = Point{0,0}) const
+    {
+        auto theta = angle * M_PI / 180; // degree to radian
+        using std::cos;
+        using std::sin;
+
+        auto x = x_ * cos(theta) - y_ * sin(theta);
+        auto y = x_ * sin(theta) + y_ * cos(theta);
+
+        return Point(x,y);
+
+    }
+
     double getX() const{
         return x_;
     }
