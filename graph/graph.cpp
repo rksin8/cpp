@@ -1,4 +1,9 @@
 #include <iostream>
+#include <queue>
+#include <stack>
+#include <set>
+
+
 #include "graph.h"
 
 using namespace std;
@@ -91,4 +96,66 @@ void Graph::print() const
 
     }
 
+}
+
+
+void Graph::bfs(int start) const
+{
+    std::set<int> visited;
+    std::queue<int> q;
+
+    q.push(start);
+    visited.insert(start);
+
+    //auto sourceNode = (nodes_.find(start))->second;
+    while (!q.empty()) {
+        int start = q.front();
+        std::cout << start << " " ;
+        q.pop();
+
+        // loop through neigbours
+        auto nodePtr = (nodes_.find(start))->second;
+
+        const auto adajList = nodePtr->getAdjacents();
+
+        for (auto it = adajList.begin(); it!= adajList.end(); ++it) {
+            // check wether node visited
+            int value = it->getValue();
+            auto it2 = visited.find(value);
+           if(it2 == visited.end()){ // not visited
+               q.push(value);
+               visited.insert(value);
+           }
+        }
+    }
+    std::cout << std::endl;
+}
+
+void Graph::dfs(int value) const
+{
+    /*
+    std::map<int, Node*> visited;
+
+    std::stack<Node> visitList;
+
+    auto sourceNode = (nodes_.find(value))->second;
+
+
+    visitList.push(*sourceNode);
+
+    while (!visitList.empty()) {
+        const auto node = visitList.top();
+        visitList.pop();
+
+        auto it = std::find(visitList.begin(), visitList.end(), *node );
+
+        if(node && !visitList.has(node))
+            std::cout << node << std::endl;
+        visited[node] = node;
+
+        for (const auto& i : node->getAdjacents()) {
+            visitList.push(i);
+        }
+    }
+*/
 }

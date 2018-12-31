@@ -27,6 +27,10 @@ public:
 
     void print() const;
 
+    void bfs(int value) const;
+
+    void dfs(int value) const;
+
 };
 
 #endif /* GRAPH_H */
