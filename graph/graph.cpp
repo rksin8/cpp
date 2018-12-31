@@ -131,31 +131,37 @@ void Graph::bfs(int start) const
     std::cout << std::endl;
 }
 
-void Graph::dfs(int value) const
+void Graph::dfs(int start) const
 {
-    /*
-    std::map<int, Node*> visited;
+    std::set<int> visited;
+    std::stack<int> q;
 
-    std::stack<Node> visitList;
+    q.push(start);
+    //visited.insert(start);
 
-    auto sourceNode = (nodes_.find(value))->second;
+    //auto sourceNode = (nodes_.find(start))->second;
+    while (!q.empty()) {
+        start = q.top();
+        q.pop();
 
+        auto it2 = visited.find(start);
+        if(it2 == visited.end()){ // not visited
+            std::cout << start << " " ;
+            visited.insert(start);
+        }
 
-    visitList.push(*sourceNode);
+        // loop through neigbours
+        auto nodePtr = (nodes_.find(start))->second;
+        const auto adajList = nodePtr->getAdjacents();
 
-    while (!visitList.empty()) {
-        const auto node = visitList.top();
-        visitList.pop();
-
-        auto it = std::find(visitList.begin(), visitList.end(), *node );
-
-        if(node && !visitList.has(node))
-            std::cout << node << std::endl;
-        visited[node] = node;
-
-        for (const auto& i : node->getAdjacents()) {
-            visitList.push(i);
+        for (auto it = adajList.begin(); it!= adajList.end(); ++it) {
+            // check wether node visited
+            int value = it->getValue();
+            auto it3 = visited.find(value);
+           if(it3 == visited.end()){ // not visited
+               q.push(value);
+           }
         }
     }
-*/
+    std::cout << std::endl;
 }

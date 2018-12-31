@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     graph.addEdge(9, 5);
     graph.addEdge(10, 6);
 
-    graph.bfs(1);
+    graph.dfs(1);
 
 
     return 0;
