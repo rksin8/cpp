@@ -2,7 +2,7 @@
 #include <queue>
 #include <stack>
 #include <set>
-
+#include <map>
 
 #include "graph.h"
 
@@ -162,6 +162,84 @@ void Graph::dfs(int start) const
                q.push(value);
            }
         }
+    }
+    std::cout << std::endl;
+}
+
+// helper function
+std::vector<int> zeroIndegree(const std::map<int, int> indegree)
+{
+    std::vector<int> v;
+    for (const auto& i : indegree) {
+        if(i.second == 0)
+            v.push_back(i.first);
+    }
+    return v;
+
+}
+
+void Graph::topsort() const
+{
+    std::queue<int> q;
+    std::vector<int> top;
+    int counter = 0;
+
+    std::map<int, int> indegree;
+
+    // initialize indegree map
+    for (const auto& v : nodes_) 
+        indegree[v.first] = 0;
+    
+
+    // Calculate indegree
+    for (const auto& v : nodes_) {
+       auto nodePtr = v.second;
+       auto adajList = nodePtr->getAdjacents(); 
+       for (const auto w: adajList) {
+            indegree[w.getValue()] += 1;
+       } 
+    }
+
+    // push all zero indegree nodes into queue.
+    for (const auto& i : zeroIndegree(indegree)) {
+       q.push(i) ;
+    }
+
+    while(!q.empty()){
+
+        // remove from the queue
+        auto v = q.front();
+        top.push_back(v);
+        q.pop();
+        counter++;
+
+        // decrease the indegree for each vertex w adajacent to v
+        /*
+        for (auto& i : indegree) {
+           indegree[i.first] = i.second - 1; 
+        }
+        */
+        
+        // push all the vertices with zero indegree to queue
+        // neighbours of v
+        auto neigbours = nodes_.find(v)->second->getAdjacents(); 
+            for (const auto w: neigbours) {
+                indegree[w.getValue()] -= 1;
+                if(indegree[w.getValue()]==0)
+                    q.push(w.getValue());
+            } 
+    }
+    
+    int size = nodes_.size();
+
+    if (counter != size) {
+        // throw exception "CycleFoundEception;
+        std::cout << "CycleFound...!" << std::endl;
+        return;
+    }
+
+    for (const auto& i : top) {
+        std::cout << i << " ";
     }
     std::cout << std::endl;
 }

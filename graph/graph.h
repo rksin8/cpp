@@ -31,6 +31,8 @@ public:
 
     void dfs(int value) const;
 
+    void topsort() const;
+
 };
 
 #endif /* GRAPH_H */
