@@ -214,18 +214,11 @@ void Graph::topsort() const
         counter++;
 
         // decrease the indegree for each vertex w adajacent to v
-        /*
-        for (auto& i : indegree) {
-           indegree[i.first] = i.second - 1; 
-        }
-        */
-        
-        // push all the vertices with zero indegree to queue
-        // neighbours of v
-        auto neigbours = nodes_.find(v)->second->getAdjacents(); 
+        // push all the  neigbours vertices of v with zero indegree to queue
+        auto neigbours = nodes_.find(v)->second->getAdjacents(); // get neigbour vertices of v
             for (const auto w: neigbours) {
-                indegree[w.getValue()] -= 1;
-                if(indegree[w.getValue()]==0)
+                //indegree[w.getValue()] -= 1;
+                if(--indegree[w.getValue()]==0) // decrease the indegree and check if zero then push
                     q.push(w.getValue());
             } 
     }
