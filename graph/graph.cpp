@@ -236,3 +236,51 @@ void Graph::topsort() const
     }
     std::cout << std::endl;
 }
+
+
+
+void printPath(int v, std::map<int, int> path){
+    if(path[v] != -1){
+        printPath(path[v], path);
+        std::cout << " to ";
+    }
+
+    std::cout << v << std::endl;
+    
+
+}
+
+void Graph::unweighted(const int s)
+{
+    std::queue<int> q;
+    std::map<int, int> dist;
+    std::map<int, int> path;
+    for (const auto& v : nodes_) {
+        dist[v.first] = -1;
+        path[v.first] = -1;
+    }
+
+    dist[s] = 0;
+
+    q.push(s);
+
+
+    while(!q.empty()){
+
+        auto v = q.front(); q.pop();
+
+        auto neigbours = nodes_.find(v)->second->getAdjacents(); // get neigbour vertices of v
+        for (auto& w : neigbours) {
+            if(dist.at(w.getValue()) ==-1){
+                auto W = w.getValue();
+                dist[W] = dist[v] + 1;
+                path[W] = v;
+                q.push(W);
+
+            }
+        }
+    }
+
+    printPath(s, path);
+
+}

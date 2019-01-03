@@ -33,6 +33,8 @@ public:
 
     void topsort() const;
 
+    void unweighted(const int s);
+
 };
 
 #endif /* GRAPH_H */

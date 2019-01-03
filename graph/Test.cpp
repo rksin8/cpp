@@ -79,5 +79,8 @@ int main(int argc, char *argv[])
     gt3.addEdge(5,3);
     gt3.topsort();
 
+
+    gt.unweighted(1);
+
     return 0;
 }
